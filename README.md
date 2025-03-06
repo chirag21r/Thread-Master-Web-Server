@@ -75,14 +75,6 @@ Example:
   curl http://localhost:8080
   ```
 
-## 🏗️ Project Structure
-```
-MultithreadedWebServer/
-│── server.cpp      # Main server code
-│── Makefile        # Build automation (optional)
-│── public/         # Static web files (HTML, CSS, JS)
-└── README.md       # Documentation
-```
 
 ## 🔥 Performance & Scalability
 - Uses **thread pooling** for managing connections efficiently.
