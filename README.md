@@ -1,78 +1,102 @@
-# Thread-Master-Web-Server
+# Multithreaded Web Server
 
-*A high-performance Java-based web server designed to handle concurrent client requests efficiently*  
-
-![Java](https://img.shields.io/badge/Java-17%2B-blue?style=flat&logo=openjdk)
+![C++](https://img.shields.io/badge/C%2B%2B-17%2B-blue?style=flat&logo=c%2B%2B)
 ![License](https://img.shields.io/badge/License-MIT-green)
 [![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-brightgreen)](https://github.com/AlphaDecodeX/MultithreadedWebServer/pulls)
 
-## 🌟 Features  
-- **Concurrent Request Handling**: Thread pooling via `ExecutorService` for optimal resource management  
-- **Configurable Architecture**: Dynamic thread pool sizing and port configuration  
-- **Graceful Shutdown**: Custom shutdown hook for safe resource cleanup  
-- **MIME Type Support**: Automatic content-type detection for common file formats  
-- **Request Logging**: Detailed request/response tracking with timestamped logs  
-- **Error Handling**: Robust HTTP 404/500 error responses with user-friendly pages  
+A high-performance **Multithreaded Web Server** implemented in C++. This server efficiently handles concurrent client requests using a **thread pool** mechanism, ensuring scalability and optimal resource utilization.
 
-## 🛠️ Technical Architecture  
+## 🌟 Features
+
+- **Multithreading Support**: Uses **POSIX threads (pthreads)** for concurrent client handling.
+- **Thread Pooling**: Implements a thread pool for better resource management and efficiency.
+- **Static File Hosting**: Serves HTML, CSS, JavaScript, and images.
+- **Logging**: Logs incoming requests for debugging and analysis.
+- **Robust Performance**: Handles high workloads with minimal overhead.
+
+## 🛠️ Technical Analysis
+
+During development, a systematic comparison was performed between:
+1. **Single-threaded approach** - inefficient under high traffic.
+2. **Multi-threaded approach** - improved concurrency but led to resource exhaustion under heavy load.
+3. **Thread-pool approach** - optimal, balancing performance, resource usage, and scalability.
+
+Extensive testing under high workloads demonstrated the robustness of the thread-pool architecture, ensuring minimal overhead and efficient resource utilization.
+
+## 📊 Architecture Diagram
 ```mermaid
-graph TD
-    A[Client Request] --> B{Server Socket}
-    B --> C[Thread Pool]
-    C --> D[Worker Thread]
-    D --> E{Request Parser}
-    E --> F[File Handler]
-    E --> G[Error Handler]
-    F --> H[HTTP Response]
-    G --> H
-    H --> I[Client]
+graph TD;
+    A[Client Requests] -->|Incoming| B(Server Socket);
+    B -->|Assigns| C{Thread Pool};
+    C -->|Handles| D[Worker Threads];
+    D --> E{Request Parser};
+    E -->|Process Static Files| F[File Handler];
+    E -->|Handle Errors| G[Error Handler];
+    F --> H[HTTP Response];
+    G --> H;
+    H -->|Response Sent| A;
+```
 
-📦 Installation & Usage
-Prerequisites: 
+## 📦 Installation & Compilation
 
- -Java 17+
- -Maven
-
+### Linux/macOS:
+```bash
 # Clone the repository
 git clone https://github.com/AlphaDecodeX/MultithreadedWebServer.git
+cd MultithreadedWebServer
 
-# Compile and package
-mvn clean package
+# Compile the server
+g++ -pthread -o server server.cpp
+```
 
-# Run the server (default: port 8080, 10 threads)
-java -jar target/MultithreadedWebServer.jar
+### Windows (MinGW):
+```bash
+g++ -o server.exe server.cpp -lws2_32
+```
 
-# Custom configuration
-java -jar target/MultithreadedWebServer.jar --port 9090 --maxThreads 25
+## 🚀 Usage
 
-Configuration
-# server.properties
-port=8080
-maxThreads=10
-webRoot=./www
-logFile=server.log
+### Running the Server
+```bash
+./server <PORT>
+```
+Example:
+```bash
+./server 8080
+```
 
-� Testing
+### Connecting to the Server
+- Open a web browser and visit:
+  ```
+  http://localhost:8080
+  ```
+- Or use `curl`:
+  ```bash
+  curl http://localhost:8080
+  ```
 
-# Test concurrent requests
-curl -v http://localhost:8080/index.html
+## 🏗️ Project Structure
+```
+MultithreadedWebServer/
+│── server.cpp      # Main server code
+│── Makefile        # Build automation (optional)
+│── public/         # Static web files (HTML, CSS, JS)
+└── README.md       # Documentation
+```
 
-# Stress test (using Apache Bench)
-ab -n 1000 -c 50 http://localhost:8080/testfile.txt
+## 🔥 Performance & Scalability
+- Uses **thread pooling** for managing connections efficiently.
+- Handles high workloads with **minimal CPU & memory overhead**.
+- Ensures **low latency** response times under stress tests.
 
- Key Design Decisions
-Thread Pooling: Utilized ExecutorService over raw threads for better resource management and scalability
+## 🔮 Future Enhancements
+- Implement **HTTP/1.1 Keep-Alive** for better performance.
+- Add **support for dynamic content processing** (CGI or FastCGI).
+- Implement **SSL/TLS encryption** for secure connections.
+- Improve **detailed request logging & analytics**.
 
-Non-Blocking IO: Implemented hybrid approach combining thread pooling with Java NIO for efficient I/O operations
+## 🤝 Contributing
+Contributions are welcome! Feel free to **fork**, **improve**, and submit **pull requests**.
 
-Configurability: Separated server parameters into properties file for environment-specific deployments
-
-Security: Implemented path normalization to prevent directory traversal attacks
-
-Performance: Optimized file serving using buffered streams and proper connection headers
-
-🧑💻 Tech Stack
-Java
-ExecutorService
-NIO
-Maven
+## 📜 License
+This project is licensed under the **MIT License**.
