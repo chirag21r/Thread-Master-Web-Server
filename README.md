@@ -4,7 +4,7 @@
 ![License](https://img.shields.io/badge/License-MIT-green)
 [![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-brightgreen)](https://github.com/AlphaDecodeX/MultithreadedWebServer/pulls)
 
-A high-performance **Multithreaded Web Server** implemented in C++. This server efficiently handles concurrent client requests using a **thread pool** mechanism, ensuring scalability and optimal resource utilization.
+A high-performance **Multithreaded Web Server** implemented in Java. This server efficiently handles concurrent client requests using a **thread pool** mechanism, ensuring scalability and optimal resource utilization.
 
 ## 🌟 Features
 
